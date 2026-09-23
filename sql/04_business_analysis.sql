@@ -100,7 +100,7 @@ WITH weekly_summary AS (
 SELECT
     WeekStatus,
     avg_usage_kwh,
-    avg_usage_kwh - AVG(avg_usage_kwh) OVER () AS difference_from_overall_avg
+    avg_usage_kwh - (SELECT AVG(Usage_kWh) FROM energy_data) AS difference_from_overall_avg
 FROM weekly_summary;
 
 WITH daily_summary AS (

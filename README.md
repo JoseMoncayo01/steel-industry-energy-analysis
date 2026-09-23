@@ -279,6 +279,14 @@ Main measures include:
 
 ---
 
+## Regional Formatting Note
+
+The Power BI dashboard uses English titles, field names, and month names. However, some numeric values may retain regional formatting from the Power BI Desktop configuration, displaying decimal and thousand separators according to the locale originally associated with the existing `.pbix` file.
+
+This affects only the visual presentation of numeric separators and does not affect the underlying data, calculations, measures, or analytical results.
+
+---
+
 # Key Analytical Areas
 
 The project analyzes energy consumption from several business perspectives:
@@ -310,6 +318,31 @@ Results obtained through SQL were compared with the corresponding Power BI analy
 
 ---
 
+# Key Findings
+
+The exploratory and SQL analysis reveals distinct operational and temporal consumption patterns:
+
+### Daily Operating Profile & Peak Demand
+* **Dual Peak Windows:** Consumption concentrates in two daytime plateaus: morning peak (**09:00–11:00**, averaging **56–59 kWh**) and afternoon plateau (**14:00–16:00**, averaging **~56 kWh**).
+* **Midday Drop:** A pronounced, consistent reduction occurs at **12:00 PM** across all weekdays, dipping to an average of **18.46 kWh** (~67% below peak hours).
+* **Overnight Baseline:** Off-peak consumption from **00:00 to 07:00** remains low and stable between **4.2 and 7.9 kWh**, representing baseline facility load.
+
+### Weekly Operational Cycle
+* **Weekday Stability:** Monday through Friday show consistent consumption, with daily averages ranging between **32.25 kWh** (Wednesday) and **35.11 kWh** (Thursday).
+* **Weekend Reduction:** Activity drops sharply on weekends. Saturday averages **15.92 kWh** (~53% below weekday levels), and Sunday records the lowest activity of the week at **7.55 kWh** (~78% below weekday levels).
+* **Weekday vs. Weekend Ratio:** Weekdays average **34.43 kWh** compared to **11.83 kWh** on weekends (a **2.91 : 1** ratio).
+
+### Load Type Breakdown
+* **Maximum Load:** Highest average intensity (**59.27 kWh**), concentrated during peak daytime hours.
+* **Medium Load:** Moderate average intensity (**38.45 kWh**), active during transition and evening hours.
+* **Light Load:** Lowest average intensity (**8.63 kWh**), representing overnight hours and weekend operations.
+
+### Seasonal Trends
+* **Annual Peak:** Energy usage peaks in **January**, with total monthly consumption exceeding **126,000 kWh** (average usage **>40 kWh**).
+* **Mid-Year Lows:** Consumption reaches annual lows in **June** and **September**, with monthly totals below **65,000 kWh** (average usage **~20–23 kWh**).
+
+---
+
 # Project Structure
 
 ```text
@@ -323,8 +356,8 @@ Steel-Industry-Energy-Analysis/
 │   └── main.py
 │
 ├── sql/
-│   ├── 01_setup_database.sql
-│   ├── 02_data_validation.sql
+│   ├── 01_setup_db.sql
+│   ├── 02_validation.sql
 │   ├── 03_exploratory_analysis.sql
 │   └── 04_business_analysis.sql
 │
@@ -369,18 +402,20 @@ The script performs the exploratory analysis, generates the visualizations and e
 
 ## 4. Run the SQL scripts
 
-Create the MySQL database using:
+Create the MySQL database and table schema using:
 
 ```text
-sql/01_setup_database.sql
+sql/01_setup_db.sql
 ```
 
-Then execute the remaining scripts in order:
+Import the cleaned dataset (`data/cleaned_energy_data.csv`) into the `energy_data` table (e.g., using MySQL Workbench Table Data Import Wizard or `LOAD DATA INFILE`).
+
+Then execute the remaining analytical scripts in order:
 
 ```text
-02_data_validation.sql
-03_exploratory_analysis.sql
-04_business_analysis.sql
+sql/02_validation.sql
+sql/03_exploratory_analysis.sql
+sql/04_business_analysis.sql
 ```
 
 ## 5. Open the Power BI report

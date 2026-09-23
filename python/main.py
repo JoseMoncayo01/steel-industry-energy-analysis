@@ -6,6 +6,13 @@ import seaborn as sns
 
 df = pd.read_csv('data/Steel_industry_data.csv')
 print('Dataset Loaded')
+
+# Normalize column names for SQL schema consistency
+df = df.rename(columns={
+    'Lagging_Current_Reactive.Power_kVarh': 'Lagging_Current_Reactive_Power_kVarh',
+    'CO2(tCO2)': 'CO2_tCO2'
+})
+
 print(df.head())
 # ==============================================================================
 
@@ -60,7 +67,7 @@ plt.ylabel('Average Usage (kWh)')
 plt.grid(True)
 plt.tight_layout()
 plt.savefig('outputs/charts/01_avg_hourly_consumption.png', bbox_inches='tight')
-plt.show()
+plt.close()
 
 # -----------------------
 
@@ -87,7 +94,7 @@ plt.ylabel('Average Usage (kWh)')
 plt.xticks(rotation=45)
 plt.tight_layout()
 plt.savefig('outputs/charts/02_avg_daily_consumption.png', bbox_inches='tight')
-plt.show()
+plt.close()
 
 # -----------------------
 
@@ -100,7 +107,7 @@ plt.ylabel('Average Usage (kWh)')
 plt.xticks(rotation=45)
 plt.tight_layout()
 plt.savefig('outputs/charts/03_weekday_vs_weekend.png', bbox_inches='tight')
-plt.show()
+plt.close()
 
 weekday = week_status_usage['Weekday']
 weekend = week_status_usage['Weekend']
@@ -124,7 +131,7 @@ plt.ylabel('Average Usage (kWh)')
 plt.xticks(rotation=0)
 plt.tight_layout()
 plt.savefig('outputs/charts/04_avg_load_type_consumption.png', bbox_inches='tight')
-plt.show()
+plt.close()
 
 # -----------------------
 
@@ -136,7 +143,7 @@ sns.heatmap(correlation_matrix, annot=True)
 plt.title('Correlation Heatmap')
 plt.tight_layout()
 plt.savefig('outputs/charts/05_correlation_heatmap.png', bbox_inches='tight')
-plt.show()
+plt.close()
 
 # -----------------------
 
@@ -148,7 +155,7 @@ plt.xlabel('Load Type')
 plt.ylabel('Usage (kWh)')
 plt.tight_layout()
 plt.savefig('outputs/charts/06_energy_dist_by_load_boxplot.png', bbox_inches='tight')
-plt.show()
+plt.close()
 
 # -----------------------
 
@@ -182,7 +189,7 @@ plt.xticks(rotation=45)
 plt.grid(True)
 plt.tight_layout()
 plt.savefig('outputs/charts/07_monthly_consumption.png', bbox_inches='tight')
-plt.show()
+plt.close()
 # ==============================================================================
 
 # PIVOT TABLE
@@ -197,7 +204,7 @@ plt.xlabel('Hour')
 plt.ylabel('Day')
 plt.tight_layout()
 plt.savefig('outputs/charts/08_day_hour_heatmap.png', bbox_inches='tight')
-plt.show()
+plt.close()
 # ==============================================================================
 
 # EXPORT CLEAN DATASET
